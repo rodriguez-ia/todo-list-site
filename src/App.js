@@ -2,6 +2,16 @@ import React, { Component }  from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function ShowTaskMenu() {
+  return (
+    <div className="App">
+      <h2>My Tasks</h2>
+      <ShowExistingTasks />
+      <CreateNewTaskButton />
+    </div>
+  );
+}
+
 function ShowExistingTasks() {
   return (
     <ul>
@@ -27,8 +37,7 @@ function CreateNewTaskButton() {
 }
 
 function App() {
-  return (
-    <div className="App">
+  /*
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -43,11 +52,8 @@ function App() {
           Learn React
         </a>
       </header>
-      <h2>My Tasks</h2>
-      <ShowExistingTasks />
-      <CreateNewTaskButton />
-    </div>
-  );
+  */
+  return <ShowTaskMenu />;
 }
 
 export default App;
