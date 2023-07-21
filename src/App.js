@@ -16,9 +16,13 @@ function ShowExistingTasks() {
   );
 }
 
-function CreateNewTask() {
+function CreateNewTaskButton() {
+  function handleClick() {
+    alert('Creating a new task.');
+  }
+
   return (
-    <button>Create New Task</button>
+    <button onClick={handleClick}>Create New Task</button>
   );
 }
 
@@ -41,7 +45,7 @@ function App() {
       </header>
       <h2>My Tasks</h2>
       <ShowExistingTasks />
-      <CreateNewTask />
+      <CreateNewTaskButton />
     </div>
   );
 }
