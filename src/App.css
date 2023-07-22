@@ -1,5 +1,35 @@
-.App {
-  text-align: center;
+ul {
+  list-style-type: none;
+}
+
+.tasks-menu {
+  text-align: left;
+  height: 91.5vh;
+  background-color: rgb(209, 236, 245);
+}
+
+.tasks-label {
+  padding: 0.5em 1em 0;
+  margin: 0;
+}
+
+.new-task-button {
+  margin: 0 3em;
+}
+
+.navbar {
+  text-align: right;
+  background-color: #282c34;
+  color: white;
+  height: 80px;
+  margin: 0;
+}
+
+.navbar-items {
+  margin: 0;
+  position: relative;
+  bottom: -1.7em;
+  right: 4em;
 }
 
 .App-logo {
