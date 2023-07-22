@@ -1,63 +1,59 @@
-import React, { Component }  from 'react';
+import React, { Component, useState }  from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function ShowTasksMenu() {
+function ShowTasksMenu({ existingTasks }) {
+  const [count, setCount] = useState(0);
+
+  function handleCreateNewTask() {
+    existingTasks.push({title:'New Task', description:'I am a new task for you', id:count});
+    setCount(count + 1);
+  }
+
   return (
     <div className="tasks-menu">
       <h2 className='tasks-label'>My Tasks</h2>
-      <ShowExistingTasks />
-      <CreateNewTaskButton />
+      <ShowExistingTasks existingTasks={existingTasks} />
+      <CreateNewTaskButton onClick={handleCreateNewTask} />
     </div>
   );
 }
 
-function ShowExistingTasks() {
+function ShowExistingTasks({ existingTasks }) {
+  const tasksToDisplay = existingTasks.map(task =>
+    <li key={task.id}>
+      <input type="checkbox" />{' '}{task.title}
+    </li>
+  );
+  
   return (
     <ul>
-      <li><input type="checkbox" />{' '}Add new task with title and optional description</li>
-      <li><input type="checkbox" />{' '}View a list of all tasks with their defaults</li>
-      <li><input type="checkbox" />{' '}Mark tasks as complete or incomplete</li>
-      <li><input type="checkbox" />{' '}Edit/update exisiting tasks</li>
-      <li><input type="checkbox" />{' '}Delete tasks from the list</li>
-      <li><input type="checkbox" />{' '}Optional: Implement local storage to persist the tasks across sessions</li>
+      <li><input type="checkbox" />{' '}Interview Prep</li>
+      <li><input type="checkbox" />{' '}Sign Birthday Card</li>
+      <li><input type="checkbox" />{' '}Shop for Groceries</li>
+      <li><input type="checkbox" />{' '}Check in on family</li>
+      <li><input type="checkbox" />{' '}Practice Guitar</li>
+      <li><input type="checkbox" />{' '}Complete 1000 Piece Jigsaw Puzzle</li>
+      {tasksToDisplay}
     </ul>
   );
 }
 
-function CreateNewTaskButton() {
-  function handleClick() {
-    alert('Creating a new task.');
-  }
-
+function CreateNewTaskButton({ onClick }) {
   return (
-    <button className='new-task-button' onClick={handleClick}>Create New Task</button>
+    <button className='new-task-button' onClick={onClick}>Create New Task</button>
   );
 }
 
 function App() {
-  /*
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-  */
   let currentDate = new Date();
   let dd = String(currentDate.getDate()).padStart(2, '0');
   let mm = String(currentDate.getMonth() + 1).padStart(2, '0');
   let yyyy = currentDate.getFullYear();
   
   currentDate = mm + '/' + dd + '/' + yyyy;
+
+  let existingTasks = [];
 
   return (
     <div>
@@ -66,7 +62,7 @@ function App() {
           {currentDate}
         </h2>
       </div>
-      <ShowTasksMenu />
+      <ShowTasksMenu existingTasks={existingTasks} />
     </div>
   );
 }
