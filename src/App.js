@@ -1,4 +1,4 @@
-import React, { Component, useState }  from 'react';
+import React, { Component, useState, useRef }  from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -6,7 +6,7 @@ function ShowTasksMenu({ existingTasks }) {
   const [count, setCount] = useState(0);
 
   function handleCreateNewTask() {
-    existingTasks.push({title:'New Task', description:'I am a new task for you', id:count});
+    existingTasks.push({title:'[Task Name]', description:'I am a new task for you', id:count});
     setCount(count + 1);
   }
 
@@ -21,21 +21,68 @@ function ShowTasksMenu({ existingTasks }) {
 
 function ShowExistingTasks({ existingTasks }) {
   const tasksToDisplay = existingTasks.map(task =>
-    <li key={task.id}>
-      <input type="checkbox" />{' '}{task.title}
-    </li>
+    <TaskItem key={task.id} taskTitle={task.title} />
   );
   
   return (
     <ul>
-      <li><input type="checkbox" />{' '}Interview Prep</li>
-      <li><input type="checkbox" />{' '}Sign Birthday Card</li>
-      <li><input type="checkbox" />{' '}Shop for Groceries</li>
-      <li><input type="checkbox" />{' '}Check in on family</li>
-      <li><input type="checkbox" />{' '}Practice Guitar</li>
-      <li><input type="checkbox" />{' '}Complete 1000 Piece Jigsaw Puzzle</li>
+      <TaskItem key="90" taskTitle="Interview Prep" />
+      <TaskItem key="91" taskTitle="Sign Birthday Card" />
+      <TaskItem key="92" taskTitle="Shop for Groceries" />
+      <TaskItem key="93" taskTitle="Check in on family" />
+      <TaskItem key="94" taskTitle="Practice Guitar" />
+      <TaskItem key="95" taskTitle="Complete 1000 Piece Jigsaw Puzzle" />
       {tasksToDisplay}
     </ul>
+  );
+}
+
+function TaskItem({ taskTitle }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedText, setEditedText] = useState(taskTitle);
+  const inputRef = useRef(null);
+
+  function handleEdit() {
+    setIsEditing(true);
+  }
+
+  function handleBlur() {
+    setIsEditing(false);
+  }
+
+  function handleChange(event) {
+    taskTitle = event.target.value
+    setEditedText(event.target.value);
+  }
+
+  function handleCheckboxClick(event) {
+    event.stopPropagation();
+  }
+
+  function handleLiClick(event) {
+    if (!isEditing && event.target === inputRef.current) {
+      setIsEditing(true);
+    }
+  }
+
+  return (
+    <li onClick={handleLiClick}>
+      <input type="checkbox"
+            onClick={handleCheckboxClick}
+            disabled={isEditing}
+      />  {' '}
+          {isEditing ? (
+            <input type="text"
+                   value={editedText}
+                   onChange={handleChange}
+                   onBlur={handleBlur}
+                   ref={inputRef}
+                   autoFocus
+            />
+          ) : (
+            <span onClick={handleEdit}>{editedText}</span>
+          )}
+    </li>
   );
 }
 
