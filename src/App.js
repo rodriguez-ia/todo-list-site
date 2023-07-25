@@ -31,12 +31,6 @@ function ShowExistingTasks({ existingTasks, onDeleteTask }) {
   
   return (
     <ul>
-      <TaskItem key="90" taskTitle="Interview Prep" onDeleteTask={onDeleteTask} />
-      <TaskItem key="91" taskTitle="Sign Birthday Card" onDeleteTask={onDeleteTask} />
-      <TaskItem key="92" taskTitle="Shop for Groceries" onDeleteTask={onDeleteTask} />
-      <TaskItem key="93" taskTitle="Check in on family" onDeleteTask={onDeleteTask} />
-      <TaskItem key="94" taskTitle="Practice Guitar" onDeleteTask={onDeleteTask} />
-      <TaskItem key="95" taskTitle="Complete 1000 Piece Jigsaw Puzzle" onDeleteTask={onDeleteTask} />
       {tasksToDisplay}
     </ul>
   );
@@ -100,7 +94,12 @@ function App() {
   
   currentDate = mm + '/' + dd + '/' + yyyy;
 
-  let existingTasks = [];
+  let existingTasks = [{title:'Interview Prep', description:'Prep for job interview.', id:"90"},
+                       {title:'Sign Birthday Card', description:'Sign a card for your friend.', id:"91"},
+                       {title:'Shop for Groceries', description:'Get bacon, eggs, and milk.', id:"92"},
+                       {title:'Check in on family', description:'See how they are all doing.', id:"93"},
+                       {title:'Practice Guitar', description:'Learn some new riffs.', id:"94"},
+                       {title:'Complete 1000 Piece Jigsaw Puzzle', description:'It has been sitting there for a while...', id:"95"}];
 
   return (
     <div>
