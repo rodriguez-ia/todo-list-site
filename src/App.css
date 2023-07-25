@@ -10,6 +10,14 @@ input.task-checkbox {
   cursor: pointer;
 }
 
+input.new-task-input {
+  margin: 1rem 0 0 2.5rem;
+}
+
+.new-task-button {
+  margin: 0 1em;
+}
+
 .tasks-menu {
   text-align: left;
   height: 91.5vh;
@@ -19,10 +27,6 @@ input.task-checkbox {
 .tasks-label {
   padding: 0.5em 1em 0;
   margin: 0;
-}
-
-.new-task-button {
-  margin: 0 3em;
 }
 
 .task-text {

@@ -11,9 +11,16 @@ function ShowTasksMenu({ nextTaskId, existingTasks }) {
     window.localStorage.setItem('nextId', nextId.toString());
   }, [tasksList, nextId]);
 
-  function handleCreateNewTask() {//TODO: Let them create the title when they first create the task
-    setTasksList(tasksList.concat([{title:'[Task Name]', description:'I am a new task for you', isComplete:false, id:nextId}]));
-    setNextId(nextId + 1);
+  function handleCreateNewTask(newTaskInputRef) {
+    if (newTaskInputRef.current.checkValidity()) {
+      const newTaskName = newTaskInputRef.current.value;
+      newTaskInputRef.current.value = '';
+
+      setTasksList(tasksList.concat([{title:newTaskName, description:'I am a new task for you', isComplete:false, id:nextId}]));
+      setNextId(nextId + 1);
+    } else {
+      newTaskInputRef.current.reportValidity();
+    }
   }
 
   function handleDeleteTask(taskId) {
@@ -30,12 +37,12 @@ function ShowTasksMenu({ nextTaskId, existingTasks }) {
 
   return (
     <div className="tasks-menu">
-      <h2 className='tasks-label'>My Tasks</h2>
+      <h2 className="tasks-label">My Tasks</h2>
       <ShowExistingTasks existingTasks={tasksList}
                          onDeleteTask={handleDeleteTask}
                          onEditTask={handleEditTask}
                          onClickTaskCheckbox={handleClickCheckbox} />
-      <CreateNewTaskButton onClick={handleCreateNewTask} />
+      <CreateNewTask onCreateNewTask={handleCreateNewTask} />
     </div>
   );
 }
@@ -112,9 +119,18 @@ function TaskItem({ taskTitle, isTaskComplete, taskId, onDeleteTask, onEditTask,
   );
 }
 
-function CreateNewTaskButton({ onClick }) {
+function CreateNewTask({ onCreateNewTask }) {
+  const newTaskInputRef = useRef(null);
+
   return (
-    <button className='new-task-button' onClick={onClick}>Create New Task</button>
+    <div>
+      <input type="text"
+             className="new-task-input"
+             placeholder="Enter new task here..."
+             ref={newTaskInputRef}
+             required></input>
+      <button className='new-task-button' onClick={() => onCreateNewTask(newTaskInputRef)}>Create New Task</button>
+    </div>
   );
 }
 
@@ -134,8 +150,8 @@ function App() {
 
   return (
     <div>
-      <div className='navbar'>
-        <h2 className='navbar-items'>
+      <div className="navbar">
+        <h2 className="navbar-items">
           {currentDate}
         </h2>
       </div>
