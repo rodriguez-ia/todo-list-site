@@ -2,6 +2,14 @@ ul {
   list-style-type: none;
 }
 
+button {
+  cursor: pointer;
+}
+
+input.task-checkbox {
+  cursor: pointer;
+}
+
 .tasks-menu {
   text-align: left;
   height: 91.5vh;
@@ -15,6 +23,10 @@ ul {
 
 .new-task-button {
   margin: 0 3em;
+}
+
+.task-text {
+  margin-right: 10px;
 }
 
 .navbar {
