@@ -3,44 +3,49 @@ import logo from './logo.svg';
 import './App.css';
 
 function ShowTasksMenu({ existingTasks }) {
-  const [count, setCount] = useState(0);
+  const [nextId, setNextId] = useState(0);
+  const [tasksList, setTasksList] = useState(existingTasks);
 
   function handleCreateNewTask() {
-    existingTasks.push({title:'[Task Name]', description:'I am a new task for you', id:count});
-    setCount(count + 1);
+    setTasksList(tasksList.concat([{title:'[Task Name]', description:'I am a new task for you', id:nextId}]));
+    setNextId(nextId + 1);
+  }
+
+  function handleDeleteTask(taskId) {
+    setTasksList(tasksList.filter(task => task.id !== taskId));
   }
 
   return (
     <div className="tasks-menu">
       <h2 className='tasks-label'>My Tasks</h2>
-      <ShowExistingTasks existingTasks={existingTasks} />
+      <ShowExistingTasks existingTasks={tasksList} onDeleteTask={handleDeleteTask} />
       <CreateNewTaskButton onClick={handleCreateNewTask} />
     </div>
   );
 }
 
-function ShowExistingTasks({ existingTasks }) {
+function ShowExistingTasks({ existingTasks, onDeleteTask }) {
   const tasksToDisplay = existingTasks.map(task =>
-    <TaskItem key={task.id} taskTitle={task.title} />
+    <TaskItem key={task.id} taskId={task.id} taskTitle={task.title} onDeleteTask={onDeleteTask} />
   );
   
   return (
     <ul>
-      <TaskItem key="90" taskTitle="Interview Prep" />
-      <TaskItem key="91" taskTitle="Sign Birthday Card" />
-      <TaskItem key="92" taskTitle="Shop for Groceries" />
-      <TaskItem key="93" taskTitle="Check in on family" />
-      <TaskItem key="94" taskTitle="Practice Guitar" />
-      <TaskItem key="95" taskTitle="Complete 1000 Piece Jigsaw Puzzle" />
+      <TaskItem key="90" taskTitle="Interview Prep" onDeleteTask={onDeleteTask} />
+      <TaskItem key="91" taskTitle="Sign Birthday Card" onDeleteTask={onDeleteTask} />
+      <TaskItem key="92" taskTitle="Shop for Groceries" onDeleteTask={onDeleteTask} />
+      <TaskItem key="93" taskTitle="Check in on family" onDeleteTask={onDeleteTask} />
+      <TaskItem key="94" taskTitle="Practice Guitar" onDeleteTask={onDeleteTask} />
+      <TaskItem key="95" taskTitle="Complete 1000 Piece Jigsaw Puzzle" onDeleteTask={onDeleteTask} />
       {tasksToDisplay}
     </ul>
   );
 }
 
-function TaskItem({ taskTitle }) {
+function TaskItem({ taskId, taskTitle, onDeleteTask }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(taskTitle);
-  const inputRef = useRef(null);
+  const textBoxRef = useRef(null);
 
   function handleEdit() {
     setIsEditing(true);
@@ -55,32 +60,27 @@ function TaskItem({ taskTitle }) {
     setEditedText(event.target.value);
   }
 
-  function handleCheckboxClick(event) {
-    event.stopPropagation();
-  }
-
-  function handleLiClick(event) {
-    if (!isEditing && event.target === inputRef.current) {
-      setIsEditing(true);
-    }
-  }
-
   return (
-    <li onClick={handleLiClick}>
+    <li>
       <input type="checkbox"
-            onClick={handleCheckboxClick}
-            disabled={isEditing}
+             disabled={isEditing}
       />  {' '}
           {isEditing ? (
             <input type="text"
                    value={editedText}
                    onChange={handleChange}
                    onBlur={handleBlur}
-                   ref={inputRef}
                    autoFocus
             />
           ) : (
-            <span onClick={handleEdit}>{editedText}</span>
+            <span onClick={handleEdit}>
+              {editedText}
+              <button onClick={() => onDeleteTask(taskId)}
+                      disabled={isEditing}
+                      ref={textBoxRef}>
+                        {' '}Delete
+              </button>
+            </span>
           )}
     </li>
   );
