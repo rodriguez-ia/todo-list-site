@@ -36,13 +36,15 @@ function ShowTasksMenu({ nextTaskId, existingTasks }) {
   }
 
   return (
-    <div className="tasks-menu">
-      <h2 className="tasks-label">My Tasks</h2>
-      <ShowExistingTasks existingTasks={tasksList}
-                         onDeleteTask={handleDeleteTask}
-                         onEditTask={handleEditTask}
-                         onClickTaskCheckbox={handleClickCheckbox} />
-      <CreateNewTask onCreateNewTask={handleCreateNewTask} />
+    <div className="tasks-container">
+      <div className="tasks-menu">
+        <div className="tasks-label">Tasks to Complete:</div>
+        <ShowExistingTasks existingTasks={tasksList}
+                          onDeleteTask={handleDeleteTask}
+                          onEditTask={handleEditTask}
+                          onClickTaskCheckbox={handleClickCheckbox} />
+        <CreateNewTask onCreateNewTask={handleCreateNewTask} />
+      </div>
     </div>
   );
 }
@@ -58,7 +60,11 @@ function ShowExistingTasks({ existingTasks, onDeleteTask, onEditTask, onClickTas
               onClickTaskCheckbox={onClickTaskCheckbox} />
   );
   
-  return (<ul>{tasksToDisplay}</ul>);
+  return (
+    <div className="task-list">
+      <ul>{tasksToDisplay}</ul>
+    </div>
+  );
 }
 
 function TaskItem({ taskTitle, isTaskComplete, taskId, onDeleteTask, onEditTask, onClickTaskCheckbox }) {
@@ -90,12 +96,13 @@ function TaskItem({ taskTitle, isTaskComplete, taskId, onDeleteTask, onEditTask,
 
   return (
     <li>
-      <input type="checkbox"
-             className="task-checkbox"
-             checked={isChecked}
-             onChange={handleCheckboxClick}
-             disabled={isEditing}
-      />  {' '}
+      <div className='checkbox-container' onClick={handleCheckboxClick}>
+        <input type="checkbox"
+               checked={isChecked}
+               disabled={isEditing}
+        />
+        <span className="task-checkbox"></span>
+      </div>
           {isEditing ? (
             <input type="text"
                    value={editedText}
@@ -108,7 +115,8 @@ function TaskItem({ taskTitle, isTaskComplete, taskId, onDeleteTask, onEditTask,
               <span className="task-text" onClick={handleEdit}>
                 {editedText}
               </span>
-              <button onClick={() => onDeleteTask(taskId)}
+              <button className="delete-button"
+                      onClick={() => onDeleteTask(taskId)}
                       disabled={isEditing}
                       ref={textBoxRef}>
                         Delete
@@ -151,11 +159,26 @@ function App() {
   return (
     <div>
       <div className="navbar">
-        <h2 className="navbar-items">
-          {currentDate}
-        </h2>
+        <img src="/apple-touch-icon.png"
+             className="clipboard-img"
+             align="left"
+             alt="Clipboard">
+        </img>
+        <div className="navbar-items">
+          <div className="navbar-title">
+            To-Do List
+          </div>
+          <div className="navbar-date">
+            {currentDate}
+          </div>
+        </div>
       </div>
       <ShowTasksMenu nextTaskId={nextTaskId} existingTasks={existingTasks} />
+      <div className="footer">
+        <div className="footer-text">
+          A simple ToDo list that keeps track of a user's tasks and allows them to update their progress as they complete their tasks.
+        </div>
+      </div>
     </div>
   );
 }
