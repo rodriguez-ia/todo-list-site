@@ -157,29 +157,31 @@ function App() {
   let existingTasks = localStorageExistingTasks ? JSON.parse(localStorageExistingTasks) : [];
 
   return (
-    <div>
-      <div className="navbar">
-        <img src="/apple-touch-icon.png"
-             className="clipboard-img"
-             align="left"
-             alt="Clipboard">
-        </img>
-        <div className="navbar-items">
-          <div className="navbar-title">
-            To-Do List
-          </div>
-          <div className="navbar-date">
-            {currentDate}
+    <>
+      <div className="page-container">
+        <div className="navbar">
+          <img src="/apple-touch-icon.png"
+              className="clipboard-img"
+              align="left"
+              alt="Clipboard">
+          </img>
+          <div className="navbar-items">
+            <div className="navbar-title">
+              To-Do List
+            </div>
+            <div className="navbar-date">
+              {currentDate}
+            </div>
           </div>
         </div>
+        <ShowTasksMenu nextTaskId={nextTaskId} existingTasks={existingTasks} />
       </div>
-      <ShowTasksMenu nextTaskId={nextTaskId} existingTasks={existingTasks} />
       <div className="footer">
         <div className="footer-text">
           A simple ToDo list that keeps track of a user's tasks and allows them to update their progress as they complete their tasks.
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
